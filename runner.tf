@@ -25,7 +25,18 @@ resource "aws_network_interface" "runner_eni" {
 
 resource "aws_instance" "runner" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
+  instance_type = "t3.medium"
+  associate_public_ip_address = true
+  key_name = franz-runner
+
+  network_interface {
+    network_interface_id = aws_network_interface.runner_eni.id
+    device_index = 0
+  }
+
+  root_block_device {
+    volume_size = 50
+  }
 
   tags = {
     Name = "franz-runner"
