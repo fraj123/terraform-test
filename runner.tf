@@ -16,7 +16,7 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_instance" "runner" {
   ami                         = data.aws_ami.ubuntu.id
-  instance_type               = "t3.medium"
+  instance_type               = "t3.large"
   associate_public_ip_address = true
   subnet_id                   = module.vpc.public_subnets[0]
   key_name                    = "franz-runner"
