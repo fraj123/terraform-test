@@ -14,25 +14,12 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-resource "aws_network_interface" "runner_eni" {
-  subnet_id   = module.vpc.public_subnets[0]
-  private_ips = ["10.0.4.10"]
-
-  tags = {
-    Name = "primary_network_interface"
-  }
-}
-
 resource "aws_instance" "runner" {
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = "t3.medium"
   associate_public_ip_address = true
+  subnet_id                   = module.vpc.public_subnets[0]
   key_name                    = "franz-runner"
-
-  network_interface {
-    network_interface_id = aws_network_interface.runner_eni.id
-    device_index = 0
-  }
 
   root_block_device {
     volume_size = 50
