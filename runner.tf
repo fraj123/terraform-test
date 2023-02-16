@@ -15,7 +15,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_network_interface" "runner_eni" {
-  subnet_id   = module.vpc.public_subnets[0].id
+  subnet_id   = module.vpc.public_subnets[0]
   private_ips = ["172.16.10.100"]
 
   tags = {
